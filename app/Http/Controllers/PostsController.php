@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class PostsController extends Controller
@@ -13,7 +14,11 @@ class PostsController extends Controller
      */
     public function index()
     {
-        return view('blog.index');
+        $posts = Post::where('is_published', true)->orderBy('updated_at', 'desc')->take(10)->get();
+
+        return view('blog.index', [
+            'posts' => $posts,
+        ]);
     }
 
     /**
@@ -45,7 +50,11 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        return $id;
+        $post = Post::where('is_published', true)->findOrFail($id);
+
+        return view('blog.show', [
+            'post' => $post
+        ]);
     }
 
     /**
