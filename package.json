@@ -2,8 +2,6 @@
     "private": true,
     "scripts": {
         "start": "php artisan serve",
-        "about": "php artisan about",
-        "config:cache": "php artisan config:cache",
         "dev": "vite",
         "build": "vite build"
     },
