@@ -14,7 +14,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = Post::where('is_published', true)->orderBy('updated_at', 'desc')->take(10)->get();
+        $posts = Post::orderBy('updated_at', 'desc')->take(10)->get();
 
         return view('blog.index', [
             'posts' => $posts,
@@ -77,12 +77,17 @@ class PostsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        //
+        $post = Post::where('id', $id)->first();
+
+        return view('blog.edit', [
+            'post' => $post,
+        ]);
     }
 
     /**
@@ -94,7 +99,28 @@ class PostsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'title' => 'required|max:255|unique:posts,title,' . $id,
+            'excerpt' => 'required',
+            'body' => 'required',
+            'image' => 'mimes:jpg,png,jpeg|max:5048',
+            'min_to_read' => 'required|min:0',
+        ]);
+
+        $post = Post::where('id', $id)->first();
+
+        $imagePath = $request->image ? $this->storeImage($request) : $post->image_path;
+
+        Post::where('id', $id)->update([
+            'title' => $request->title,
+            'excerpt' => $request->excerpt,
+            'body' => $request->body,
+            'image_path' => $imagePath,
+            'is_published' => $request->is_published === 'on',
+            'min_to_read' => $request->min_to_read,
+        ]);
+
+        return redirect(route('blog.index'));
     }
 
     /**

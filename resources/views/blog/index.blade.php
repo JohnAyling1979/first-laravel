@@ -37,12 +37,19 @@
                             {{ $post->title }}
                         </h2>
                         <p class="text-gray-900 text-lg py-8 w-full break-words">{{ $post->excerpt }}</p>
+                        @if ($post->is_published)
+                            <p class="text-gray-900 text-lg py-8 w-full break-words">Published</p>
+                        @endif
+
+                        <a class="block italic text-green-500 border-b-1 border-green-400" href="{{ route('blog.edit', $post->id) }}">Edit</a>
                     </div>
                 </div>
             </div>
         </a>
     @empty
-        <p>No Posts</p>
+        <div class="w-4/5 mx-auto pb-10">
+            <p>No Posts</p>
+        </div>
     @endforelse
 
 
