@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PostFormRequest;
 use App\Models\Post;
+use App\Models\PostMeta;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostsController extends Controller
 {
@@ -42,13 +44,21 @@ class PostsController extends Controller
     {
         $request->validated();
 
-        Post::create([
+        $post = Post::create([
+            'user_id' => Auth::id(),
             'title' => $request->title,
             'excerpt' => $request->excerpt,
             'body' => $request->body,
             'image_path' => $this->storeImage($request),
             'is_published' => $request->is_published === 'on',
             'min_to_read' => $request->min_to_read,
+        ]);
+
+        $post->meta()->create([
+            'post_id' => $post->id,
+            'meta_description' => $request->meta_description,
+            'meta_keywords' => $request->meta_keywords,
+            'meta_robots' => $request->meta_robots,
         ]);
 
         return redirect(route('blog.index'));
@@ -72,11 +82,10 @@ class PostsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $id)
+    public function edit($id)
     {
         $post = Post::where('id', $id)->first();
 
@@ -101,12 +110,19 @@ class PostsController extends Controller
         $imagePath = $request->image ? $this->storeImage($request) : $post->image_path;
 
         Post::where('id', $id)->update([
+            'user_id' => Auth::user()->id,
             'title' => $request->title,
             'excerpt' => $request->excerpt,
             'body' => $request->body,
             'image_path' => $imagePath,
             'is_published' => $request->is_published === 'on',
             'min_to_read' => $request->min_to_read,
+        ]);
+
+        PostMeta::where('post_id', $id)->update([
+            'meta_description' => $request->meta_description,
+            'meta_keywords' => $request->meta_keywords,
+            'meta_robots' => $request->meta_robots,
         ]);
 
         return redirect(route('blog.index'));
