@@ -25,6 +25,14 @@
             {{ $post->title }}
         </h4>
 
+        <p class="pt-4 italic">
+            Categories:
+
+            @foreach ($post->categories as $category)
+                {{ $category->title }}
+            @endforeach
+        </p>
+
         <div class="pt-10 pb-10 text-gray-900 text-xl">
             <p class="text-base text-black pt-10">
                 {{ $post->body }}
