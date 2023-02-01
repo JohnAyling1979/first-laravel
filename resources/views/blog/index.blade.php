@@ -45,6 +45,8 @@
                             class="text-gray-900 text-2xl font-bold pt-6 pb-0 sm:pt-0 hover:text-gray-700 transition-all">
                             {{ $post->title }}
                         </h2>
+
+                        <img src="{{ $post->image_path }}" />
                         <p class="text-gray-900 text-lg py-8 w-full break-words">{{ $post->excerpt }}</p>
                         @if ($post->is_published)
                             <p class="text-gray-900 text-lg py-8 w-full break-words">Published</p>
