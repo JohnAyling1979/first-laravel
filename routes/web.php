@@ -17,9 +17,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', HomeController::class);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -45,7 +43,5 @@ Route::prefix('/blog')->group(function() {
 
     Route::delete('/{id}', [PostsController::class, 'destroy'])->name('blog.destroy')->whereNumber('id');
 });
-
-Route::get('/', HomeController::class);
 
 Route::fallback(FallbackController::class);

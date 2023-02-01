@@ -12,6 +12,19 @@
                     {{ __("You're logged in!") }}
                 </div>
             </div>
+
+            <div>
+                <h1 class="text-xl font-bold pt-8 pb-2">
+                    Posts of: {{ Auth::user()->name }}
+                </h1>
+                @forelse (Auth::user()->posts as $post)
+                    <h2>{{ $post->title }}</h2>
+                @empty
+                    <div class="w-4/5 mx-auto pb-10">
+                        <p>No Posts</p>
+                    </div>
+                @endforelse
+            </div>
         </div>
     </div>
 </x-app-layout>
