@@ -43,7 +43,7 @@
                 <label for="is_published" class="text-gray-500 text-2xl">
                     Is Published
                 </label>
-                <input type="checkbox" class="bg-transparent block border-b-2 inline text-2xl outline-none"
+                <input type="checkbox" class="bg-transparent block border-b-2 text-2xl outline-none"
                     name="is_published"{{ (bool)$post->is_published === true ? 'checked' : '' }}>
 
                 <input type="text" name="title" placeholder="Title..." value="{{ $post->title }}"

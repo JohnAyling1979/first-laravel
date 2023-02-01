@@ -15,7 +15,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = Post::orderBy('updated_at', 'desc')->take(10)->get();
+        $posts = Post::orderBy('updated_at', 'desc')->paginate(10);
 
         return view('blog.index', [
             'posts' => $posts,

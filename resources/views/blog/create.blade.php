@@ -42,7 +42,7 @@
                 <label for="is_published" class="text-gray-500 text-2xl">
                     Is Published
                 </label>
-                <input type="checkbox" class="bg-transparent block border-b-2 inline text-2xl outline-none"
+                <input type="checkbox" class="bg-transparent block border-b-2 text-2xl outline-none"
                     name="is_published">
 
                 <input type="text" name="title" placeholder="Title..."
