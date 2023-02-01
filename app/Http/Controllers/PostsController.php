@@ -131,7 +131,9 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Post::destroy($id);
+
+        return redirect(route('blog.index'))->with('warning', 'Post is deleted.');
     }
 
     private function storeImage(Request $request)
